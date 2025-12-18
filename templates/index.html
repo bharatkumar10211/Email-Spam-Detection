@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Email Spam Detection</title>
+
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(135deg, #e9ecef, #f8f9fa);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .card {
+            background: #ffffff;
+            padding: 30px;
+            width: 480px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 12px;
+            font-size: 14px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            resize: none;
+            outline: none;
+        }
+
+        textarea:focus {
+            border-color: #007bff;
+        }
+
+        .btn-group {
+            margin-top: 15px;
+        }
+
+        button {
+            padding: 10px 22px;
+            font-size: 14px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .check-btn {
+            background: #007bff;
+            color: #fff;
+        }
+
+        .reset-btn {
+            background: #6c757d;
+            color: #fff;
+            margin-left: 10px;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .result {
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .spam {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .ham {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .prob {
+            margin: 4px 0;
+            font-size: 14px;
+        }
+    </style>
+
+    <script>
+        // Clear textarea only when New Mail is clicked
+        function newMail() {
+            const textarea = document.getElementById("messageBox");
+            textarea.value = "";
+            textarea.focus();
+        }
+    </script>
+</head>
+
+<body>
+
+<div class="card">
+
+    <!-- 🔼 RESULT AT TOP -->
+    {% if result %}
+        <div class="result">
+            <h3>
+                Prediction:
+                <span class="{{ 'spam' if result=='SPAM' else 'ham' }}">
+                    {{ result }}
+                </span>
+            </h3>
+            <p class="prob">📊 Spam Probability: <b>{{ spam_prob }}%</b></p>
+            <p class="prob">📊 Not Spam Probability: <b>{{ ham_prob }}%</b></p>
+        </div>
+    {% endif %}
+
+    <h2>Email Spam Detection</h2>
+
+    <form method="post">
+        <!-- 🔹 Text preserved after Check -->
+        <textarea
+            id="messageBox"
+            name="message"
+            placeholder="Enter email text..."
+            required
+        >{{ message }}</textarea>
+
+        <div class="btn-group">
+            <button type="submit" class="check-btn">Check</button>
+            <button type="button" class="reset-btn" onclick="newMail()">New Mail</button>
+        </div>
+    </form>
+
+</div>
+
+</body>
+</html>
